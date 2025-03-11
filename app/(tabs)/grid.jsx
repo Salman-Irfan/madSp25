@@ -51,11 +51,15 @@ export default Grid
 const styles = StyleSheet.create({
     gridLayout:{
         display: 'flex',
+        flexDirection: "row",
         backgroundColor: "green",
+        flexWrap: "wrap",
+        // display: 'flex',
+        // backgroundColor: "green",
         margin: 2,
         padding: 2,
-        flexDirection: "row",
-        flexWrap: "wrap",
+        // flexDirection: "row",
+        // flexWrap: "wrap",
     },
     item: {
         backgroundColor: "red",
@@ -63,6 +67,5 @@ const styles = StyleSheet.create({
         padding: 3,
         width: 200,
         textAlign: "center",
-        textAlignVertical: "center", 
     }
 })
