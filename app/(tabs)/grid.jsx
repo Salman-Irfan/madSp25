@@ -1,10 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
+
 const Grid = () => {
+    
     return (
         <View style={{ backgroundColor: "white" }}>
             <Text>Flex / Grid Layout</Text>
+            
             <View style={styles.gridLayout}>
                 <Text style={styles.item} >Ahmad Hassan </Text>
                 <Text style={styles.item} >Atif Raza</Text>
