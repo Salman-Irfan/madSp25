@@ -1,24 +1,24 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { FlatList } from 'react-native-web'
-import UserNames from '../../components/lists/UserNames'
+import Manufacturer from '../../components/views/stylingViews/Manufacturer'
+import Man1 from '../../components/views/stylingViews/Man1'
+import Man2 from '../../components/views/stylingViews/Man2'
+import Man3 from '../../components/views/stylingViews/Man3'
 
 const Stylings = () => {
-    const users = [
-        { id: 1, name: `ali` },
-        { id: 2, name: `ahmad` },
-        { id: 3, name: `atif` },
-        { id: 4, name: `faizan` },
-        { id: 5, name: `haris` },
-    ]
     return (
         <View style={{ backgroundColor: "white" }}>
             <Text>Stylings</Text>
-            <FlatList
-                data={users}
-                renderItem={({ item }) => <UserNames item={item} />}
-                keyExtractor={(item)=>{item.id}}
-            />
+            <Manufacturer make="honda" model="city" variant="2020" />
+            <Manufacturer make="toyota" model="city" variant="2020" />
+            <Manufacturer make="suzuki" model="city" variant="2020" />
+            
+            <View style={{backgroundColor: "blue"}}>
+                <Man1 />
+                <Man1 />
+                <Man2 />
+                <Man3 />
+            </View>
         </View>
     )
 }

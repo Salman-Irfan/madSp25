@@ -38,7 +38,6 @@ const States = () => {
         } catch (error) {
             console.log(error)
         }
-
     }
 
     useEffect(() => {
