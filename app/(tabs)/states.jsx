@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { Button } from 'react-native'
 import { useState } from 'react'
 import { TextInput } from 'react-native'
 import axios from 'axios'
+import { addDoc, collection } from 'firebase/firestore'
+import { db } from '../../config/firebaseConfig'
 
 
 const States = () => {
@@ -25,12 +27,13 @@ const States = () => {
     }
     // use effect
     useEffect(() => {
+        console.log(process.env.EXPO_PUBLIC_KEY)
         console.log(`component did mount called, component screen py nazar any lga`)
         console.log(`component did mount called, component screen py nazar any lga`)
         console.log(`component did mount called, component screen py nazar any lga`)
         console.log(`component did mount called, component screen py nazar any lga`)
     }, [btn1, btn3])
-
+    
     const fetchApiData = async () => {
         try {
             const response = await axios.get(`https://jsonplaceholder.typicode.com/todos/1`) // promise
@@ -44,6 +47,20 @@ const States = () => {
         // http network request to another app
         fetchApiData()
     }, [])
+
+    const handleFormSubmit = async() => {
+        console.log(formValue)
+        try {
+            const docRef = await addDoc(collection(db, "students"), formValue)
+            console.log(docRef.id)
+            if (docRef.id) {
+                alert(`product Id: ${docRef.id}`);
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 
     return (
@@ -60,22 +77,27 @@ const States = () => {
             <TextInput
                 placeholder='enter name'
                 value={formValue.name}
-                onChangeText={(text) => setFormValue(text)}
+                onChangeText={(text) => setFormValue({ ...formValue, name: text })}
             />
             <TextInput
                 placeholder='enter email'
                 value={formValue.email}
-                onChangeText={(text) => setFormValue(text)}
+                onChangeText={(text) => setFormValue({ ...formValue, email: text })}
             />
             <TextInput
                 placeholder='enter age'
                 value={formValue.age}
-                onChangeText={(text) => setFormValue(text)}
+                onChangeText={(text) => setFormValue({ ...formValue, age: parseInt(text) || 0 })}
             />
             <TextInput
                 placeholder='enter password'
                 value={formValue.password}
-                onChangeText={(text) => setFormValue(text)}
+                onChangeText={(text) => setFormValue({ ...formValue, password: text })}
+            />
+
+            <Button
+                title='Submit'
+                onPress={handleFormSubmit}
             />
 
         </View>
