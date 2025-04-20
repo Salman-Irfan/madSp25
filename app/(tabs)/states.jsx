@@ -1,109 +1,69 @@
-import { Alert, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { Button } from 'react-native'
-import { useState } from 'react'
-import { TextInput } from 'react-native'
-import axios from 'axios'
-import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../../config/firebaseConfig'
-
-
+import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '@/config/firebaseConfig';
 const States = () => {
-    const [count, setCount] = useState(5)
-    const [btn1, setBtn1] = useState(1)
-    const [btn2, setBtn2] = useState(2)
-    const [btn3, setBtn3] = useState(3)
-    const [formValue, setFormValue] = useState({
-        name: "",
-        email: "",
-        age: 0,
-        password: "",
-    })
-    const handleIncrementCounter = () => {
-        setCount(count + 1)
-    }
-    const handleDecrementCounter = () => {
-        setCount(count - 1)
-    }
-    // use effect
-    useEffect(() => {
-        console.log(process.env.EXPO_PUBLIC_KEY)
-        console.log(`component did mount called, component screen py nazar any lga`)
-        console.log(`component did mount called, component screen py nazar any lga`)
-        console.log(`component did mount called, component screen py nazar any lga`)
-        console.log(`component did mount called, component screen py nazar any lga`)
-    }, [btn1, btn3])
     
-    const fetchApiData = async () => {
-        try {
-            const response = await axios.get(`https://jsonplaceholder.typicode.com/todos/1`) // promise
-            console.log(response)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const [title, setTitle] = useState("");
+    const [price, setPrice] = useState("");
+    const [description, setDescription] = useState("");
 
-    useEffect(() => {
-        // http network request to another app
-        fetchApiData()
-    }, [])
 
-    const handleFormSubmit = async() => {
-        console.log(formValue)
+    // handleAddProduct
+    const handleAddProduct = async () => {
         try {
-            const docRef = await addDoc(collection(db, "students"), formValue)
+            const docRef = await addDoc(collection(db, "products"), {
+                title: title,
+                price: price,
+                description: description,
+            })
             console.log(docRef.id)
             if (docRef.id) {
-                alert(`product Id: ${docRef.id}`);
+                Alert.alert(`product added successfully with product Id: ${docRef.id}`);
             }
-
         } catch (error) {
             console.log(error)
+            Alert.alert(`internal server error`)
         }
-    }
 
+    };
 
     return (
-        <View style={{ backgroundColor: "white" }}>
-            <Text>States</Text>
-            <Text>{count}</Text>
-            <Button title='increment' onPress={handleIncrementCounter} />
-            <Button title='Decrement' onPress={handleDecrementCounter} />
-            <Button title='Reset' onPress={() => setCount(0)} />
-            <Button title="btn1" onPress={() => setBtn1(btn1 + 1)} />
-            <Button title="btn2" onPress={() => setBtn2(btn2 + 1)} />
-            <Button title="btn3" onPress={() => setBtn3(btn3 + 1)} />
+        <SafeAreaView style={{ backgroundColor: 'white' }}>
+            <View >
+                <Text>Products</Text>
+                {/* title start */}
+                <TextInput
+                    placeholder='Title'
+                    value={title}
+                    onChangeText={setTitle}
+                />
+                {/* title end */}
+                {/* Price start */}
+                <TextInput
+                    placeholder='Price'
+                    keyboardType="numeric"
+                    value={price}
+                    onChangeText={text => setPrice(text)}
+                />
+                {/* Price end */}
+                {/* Description start */}
+                <TextInput
+                    placeholder='Description'
+                    value={description}
+                    onChangeText={setDescription}
+                />
+                {/* Description end */}
+                <Button
+                    title='Add Product'
+                    onPress={handleAddProduct}
+                />
+            </View>
+        </SafeAreaView>
+    );
+};
 
-            <TextInput
-                placeholder='enter name'
-                value={formValue.name}
-                onChangeText={(text) => setFormValue({ ...formValue, name: text })}
-            />
-            <TextInput
-                placeholder='enter email'
-                value={formValue.email}
-                onChangeText={(text) => setFormValue({ ...formValue, email: text })}
-            />
-            <TextInput
-                placeholder='enter age'
-                value={formValue.age}
-                onChangeText={(text) => setFormValue({ ...formValue, age: parseInt(text) || 0 })}
-            />
-            <TextInput
-                placeholder='enter password'
-                value={formValue.password}
-                onChangeText={(text) => setFormValue({ ...formValue, password: text })}
-            />
+export default States;
 
-            <Button
-                title='Submit'
-                onPress={handleFormSubmit}
-            />
-
-        </View>
-    )
-}
-
-export default States
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
